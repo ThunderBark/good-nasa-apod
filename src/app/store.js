@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import apodReducer from '../APOD/apodSlice';
+import galleryReducer from '../features/gallery/gallerySlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    apod: apodReducer,
+    gallery: galleryReducer,
   },
 });
