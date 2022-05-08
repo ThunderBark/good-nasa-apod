@@ -20,12 +20,10 @@ function Gallery() {
   const monthArray = useSelector((state) => state.gallery.monthArray);
   const yearArray = useSelector((state) => state.gallery.yearArray);
 
-  // FIXME: из-за useEffect эти запросы отправляются по 3 раза. Найти лучше место для инициализации
   useEffect(() => {
     dispatch(getApodMonthAsync({ month: selectedMonth, year: selectedYear }));
   }, [selectedMonth, selectedYear]);
 
-  // TODO: сделать маленькие значки видео на клеточках
   return (
     <div className={styles.gallery}>
       <div className={styles.selection}>

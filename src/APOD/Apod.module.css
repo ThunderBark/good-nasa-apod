@@ -18,7 +18,7 @@
   position: absolute;
   left: 0;
   bottom: 20px;
-  width: 95%;
+  width: calc(100% - 40px);
   text-align: left;
   padding: 10px;
   margin: 0 10px;
@@ -80,7 +80,6 @@
   .description {
     position: static;
     text-align: justify;
-    margin: auto;
   }
 
   .descrLink {
@@ -89,7 +88,6 @@
 
   .title {
     position: static;
-    margin: 0;
     text-align: left;
   }
 

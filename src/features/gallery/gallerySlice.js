@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 import { fetchDateRange } from "./galleryAPI";
 
 // Date must be between Jun 16, 1995 and May 01, 2022.
@@ -41,6 +42,11 @@ export const getApodMonthAsync = createAsyncThunk(
             .toISOString()
             .substring(0, 10);
     const response = await fetchDateRange(firstDay, lastDay);
+    if (response.status === 429) {
+      toast.error("Too many pictures for you today, see you tomorrow!");
+    } else if (!response.ok) {
+      toast.error(response.status + ": " + response.statusText);
+    }
     // The value we return becomes the `fulfilled` action payload
     return response.json();
   }

@@ -18,11 +18,10 @@ function Apod() {
 
   const dispatch = useDispatch();
 
-  // FIXME: из-за useEffect эти запросы отправляются по 3 раза. Найти лучше место для инициализации
   useEffect(() => {
     dispatch(getApodAsync(selectedDate));
   }, [selectedDate]);
-  // TODO: вообще надо обрабатывать случаи когда NASA присылает не фотографии, там могут быть и видео
+
   return (
     <div className={styles.wrapper}>
       {mediaType === "image" && status === "idle" && (
