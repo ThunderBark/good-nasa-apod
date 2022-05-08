@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Apod from "./APOD/Apod"
+import Apod from "./APOD/Apod";
 
 function App() {
   return (

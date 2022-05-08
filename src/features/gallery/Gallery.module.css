@@ -1,6 +1,5 @@
 .gallery {
   height: 100vmin;
-  max-height: 100vmin;
   text-align: center;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -9,7 +8,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   margin: 0 10px;
   gap: 5px;
 }
@@ -60,4 +59,14 @@
 .selection {
   width: fit-content;
   margin: 10px auto;
+}
+
+@media screen and (max-width: 800px) {
+  .gallery {
+    height: fit-content;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  }
 }

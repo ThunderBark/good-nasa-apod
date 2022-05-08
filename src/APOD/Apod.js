@@ -23,13 +23,12 @@ function Apod() {
     dispatch(getApodAsync(selectedDate));
   }, [selectedDate]);
   // TODO: вообще надо обрабатывать случаи когда NASA присылает не фотографии, там могут быть и видео
-  // TODO: добавить лоадер когда загружается новая картинка
   return (
     <div className={styles.wrapper}>
       {mediaType === "image" && status === "idle" && (
         <div className={styles.imgWrapper}>
           <img className={styles.image} src={url} alt=""></img>
-          <a href={hdurl} target="_blank" rel="noreferrer">
+          <a className={styles.descrLink} href={hdurl} target="_blank" rel="noreferrer">
             <div className={styles.content}>
               <div className={styles.title}>
                 <h2>{title}</h2>
