@@ -19,7 +19,7 @@ function Apod() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getApodAsync(selectedDate));
+    dispatch(getApodAsync(''));
   }, [selectedDate]);
 
   return (

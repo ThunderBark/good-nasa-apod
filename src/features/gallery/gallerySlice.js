@@ -94,13 +94,7 @@ export const gallerySlice = createSlice({
         state.status = "idle";
         state.gridItems = [];
         action.payload.map((item, index) =>
-          state.gridItems.push({
-            title: item.title,
-            date: item.date,
-            url: item.url,
-            type: item.media_type,
-            thumbnail: item.thumbnail_url,
-          })
+          state.gridItems.push(item)
         );
       });
   },

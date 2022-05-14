@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./Gallery.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedDate } from "../../APOD/apodSlice";
+import { setContent, setSelectedDate } from "../../APOD/apodSlice";
 import {
   getApodMonthAsync,
   setSelectedMonth,
@@ -61,17 +61,17 @@ function Gallery() {
               className={styles.item}
               key={index}
               onClick={() => {
-                dispatch(setSelectedDate(item.date));
+                dispatch(setContent(item));
               }}
               title={item.title}
             >
               <img
-                src={item.type === "image" ? item.url : item.thumbnail}
+                src={item.media_type === "image" ? item.url : item.thumbnail_url}
                 className={styles.itemImg}
                 alt={item.title}
               ></img>
               <div>{item.date.substring(index >= 9 ? 8 : 9, 10)}</div>
-              {item.type === "video" && (
+              {item.media_type === "video" && (
                 <img
                   className={styles.youtubeLogo}
                   src={youtube_logo}
