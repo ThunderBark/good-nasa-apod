@@ -62,6 +62,7 @@ function Gallery() {
               key={index}
               onClick={() => {
                 dispatch(setApodContent(item));
+                window.scrollTo({top: 0, behavior: 'smooth'});
               }}
               title={item.title}
             >
