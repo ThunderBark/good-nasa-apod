@@ -11,7 +11,7 @@ const initialState = {
   date: "test date",
   selectedDate: new Date().toISOString().substring(0, 10),
   descr: "test descr",
-  mediaType: 'image',
+  mediaType: '',
 };
 
 export const getApodAsync = createAsyncThunk("apod/fetchDate", async (date) => {

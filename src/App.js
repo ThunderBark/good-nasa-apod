@@ -6,7 +6,20 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div className="App">
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          className: "",
+          error: {
+            style: {
+              border: "1px solid red",
+              color: "white",
+              background: 'black',
+            },
+          },
+        }}
+      />
       <div className="app-wrapper-content">{<Apod />}</div>
     </div>
   );

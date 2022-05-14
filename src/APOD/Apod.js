@@ -27,7 +27,12 @@ function Apod() {
       {mediaType === "image" && status === "idle" && (
         <div className={styles.imgWrapper}>
           <img className={styles.image} src={url} alt=""></img>
-          <a className={styles.descrLink} href={hdurl} target="_blank" rel="noreferrer">
+          <a
+            className={styles.descrLink}
+            href={hdurl}
+            target="_blank"
+            rel="noreferrer"
+          >
             <div className={styles.content}>
               <div className={styles.title}>
                 <h2>{title}</h2>
@@ -62,6 +67,11 @@ function Apod() {
         </div>
       )}
       {status === "loading" && <Loader />}
+      {status === "idle" && !mediaType && (
+        <div style={{ margin: "auto" }}>
+          That's all for today! See you tomorrow!
+        </div>
+      )}
       <Gallery />
     </div>
   );
