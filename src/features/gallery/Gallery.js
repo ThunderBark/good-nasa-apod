@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./Gallery.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setContent, setSelectedDate } from "../../APOD/apodSlice";
+import { setApodContent, setSelectedDate } from "../../APOD/apodSlice";
 import {
   getApodMonthAsync,
   setSelectedMonth,
@@ -61,7 +61,7 @@ function Gallery() {
               className={styles.item}
               key={index}
               onClick={() => {
-                dispatch(setContent(item));
+                dispatch(setApodContent(item));
               }}
               title={item.title}
             >
