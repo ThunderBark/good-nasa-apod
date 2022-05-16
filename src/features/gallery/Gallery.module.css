@@ -57,8 +57,7 @@
 }
 
 .selection {
-  width: fit-content;
-  margin: 10px auto;
+  width: 100%;
 }
 
 @media screen and (max-width: 800px) {

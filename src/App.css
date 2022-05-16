@@ -3,3 +3,19 @@ body {
   background-color: black;
   color: white;
 }
+
+select {
+  color: white;
+  background-color: black;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 0.25em 0.5em;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+  scrollbar-color: grey black;
+  scrollbar-width: thin;
+  margin: 10px 5px;
+}

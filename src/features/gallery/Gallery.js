@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./Gallery.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setApodContent, setSelectedDate } from "../../APOD/apodSlice";
+import { setApodContent } from "../../APOD/apodSlice";
 import {
   getApodMonthAsync,
   setSelectedMonth,
@@ -62,12 +62,14 @@ function Gallery() {
               key={index}
               onClick={() => {
                 dispatch(setApodContent(item));
-                window.scrollTo({top: 0, behavior: 'smooth'});
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               title={item.title}
             >
               <img
-                src={item.media_type === "image" ? item.url : item.thumbnail_url}
+                src={
+                  item.media_type === "image" ? item.url : item.thumbnail_url
+                }
                 className={styles.itemImg}
                 alt={item.title}
               ></img>
