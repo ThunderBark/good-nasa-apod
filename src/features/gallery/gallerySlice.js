@@ -22,6 +22,7 @@ const initialState = {
   yearArray: [...Array(new Date().getFullYear() - 1995).keys()].map((i) =>
     (i + 1996).toString()
   ),
+  todayDate: new Date(),
   selectedMonth: new Date().getMonth(),
   selectedYear: new Date().getFullYear(),
   gridItems: [],
@@ -60,9 +61,7 @@ export const gallerySlice = createSlice({
       state.selectedMonth = action.payload;
     },
     setSelectedYear: (state, action) => {
-      // Знаю что action должен быть чистой функцией, но пока не придумал как сделать лучше
       state.selectedYear = action.payload;
-      const today = new Date();
       state.monthArray = [
         "January",
         "February",
@@ -78,9 +77,12 @@ export const gallerySlice = createSlice({
         "December",
       ].filter(
         (item, index) =>
-          index <= today.getMonth() ||
-          today.getFullYear() !== state.selectedYear
+          index <= state.todayDate.getMonth() ||
+          state.todayDate.getFullYear() !== state.selectedYear
       );
+      if ((state.todayDate.getFullYear() === state.selectedYear) && (state.selectedMonth > state.todayDate.getMonth())) {
+        state.selectedMonth = state.todayDate.getMonth();
+      }
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
