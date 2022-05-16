@@ -6,21 +6,21 @@ import { fetchDateRange } from "./galleryAPI";
 const initialState = {
   status: "idle",
   monthArray: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    {value: 0, name: "January"},
+    {value: 1, name: "February"},
+    {value: 2, name: "March"},
+    {value: 3, name: "April"},
+    {value: 4, name: "May"},
+    {value: 5, name: "June"},
+    {value: 6, name: "July"},
+    {value: 7, name: "August"},
+    {value: 8, name: "September"},
+    {value: 9, name: "October"},
+    {value: 10, name: "November"},
+    {value: 11, name: "December"},
   ].filter((item, index) => index <= new Date().getMonth()),
-  yearArray: [...Array(new Date().getFullYear() - 1995).keys()].map((i) =>
-    (i + 1996).toString()
+  yearArray: [...Array(new Date().getFullYear() - 1994).keys()].map((i) =>
+    (i + 1995).toString()
   ),
   todayDate: new Date().toISOString(),
   selectedMonth: new Date().getMonth(),
@@ -32,7 +32,11 @@ export const getApodMonthAsync = createAsyncThunk(
   "gallery/fetchMonth",
   async (monthObj) => {
     const today = new Date();
-    const firstDay = new Date(monthObj.year, monthObj.month, 2)
+    const firstDay = new Date(
+      monthObj.year,
+      monthObj.month,
+      monthObj.year === 1995 && monthObj.month === 5 ? 17 : 2
+    )
       .toISOString()
       .substring(0, 10);
     const lastDay =
@@ -63,27 +67,32 @@ export const gallerySlice = createSlice({
     setSelectedYear: (state, action) => {
       const today = new Date(state.todayDate);
       state.selectedYear = action.payload;
+      if (state.selectedYear === today.getFullYear()) {
+        state.selectedMonth = Math.min(today.getMonth(), state.selectedMonth);
+      } else if (state.selectedYear === 1995) {
+        state.selectedMonth = Math.max(5, state.selectedMonth);
+      }
       state.monthArray = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
+        {value: 0, name: "January"},
+        {value: 1, name: "February"},
+        {value: 2, name: "March"},
+        {value: 3, name: "April"},
+        {value: 4, name: "May"},
+        {value: 5, name: "June"},
+        {value: 6, name: "July"},
+        {value: 7, name: "August"},
+        {value: 8, name: "September"},
+        {value: 9, name: "October"},
+        {value: 10, name: "November"},
+        {value: 11, name: "December"},
       ].filter(
         (item, index) =>
-          index <= today.getMonth() ||
-          today.getFullYear() !== state.selectedYear
+          !(
+            (item.value > today.getMonth() &&
+              today.getFullYear() === state.selectedYear) ||
+            (state.selectedYear === 1995 && item.value < 5)
+          )
       );
-      if ((today.getFullYear() === state.selectedYear) && (state.selectedMonth > state.todayDate.getMonth())) {
-        state.selectedMonth = state.todayDate.getMonth();
-      }
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -96,9 +105,7 @@ export const gallerySlice = createSlice({
       .addCase(getApodMonthAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.gridItems = [];
-        action.payload.map((item, index) =>
-          state.gridItems.push(item)
-        );
+        action.payload.map((item, index) => state.gridItems.push(item));
       });
   },
 });

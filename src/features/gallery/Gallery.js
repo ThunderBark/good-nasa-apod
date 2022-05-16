@@ -35,8 +35,8 @@ function Gallery() {
         >
           Month
           {monthArray.map((item, index) => (
-            <option value={index} key={index}>
-              {item}
+            <option value={item.value} key={index}>
+              {item.name}
             </option>
           ))}
         </select>
@@ -48,7 +48,7 @@ function Gallery() {
         >
           Year
           {yearArray.map((item, index) => (
-            <option value={index + 1996} key={index}>
+            <option value={index + 1995} key={index}>
               {item}
             </option>
           ))}
@@ -73,7 +73,12 @@ function Gallery() {
                 className={styles.itemImg}
                 alt={item.title}
               ></img>
-              <div>{item.date.substring(index >= 9 ? 8 : 9, 10)}</div>
+              <div>
+                {item.date.substring(
+                  item.date.charAt(item.date.length - 2) === "0" ? 9 : 8,
+                  10
+                )}
+              </div>
               {item.media_type === "video" && (
                 <img
                   className={styles.youtubeLogo}
