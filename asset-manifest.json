@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/good-nasa-apod/static/css/main.f3c9554c.css",
-    "main.js": "/good-nasa-apod/static/js/main.1c1e1393.js",
+    "main.css": "/good-nasa-apod/static/css/main.46f0e682.css",
+    "main.js": "/good-nasa-apod/static/js/main.6e864acf.js",
     "static/js/27.4de4b6e4.chunk.js": "/good-nasa-apod/static/js/27.4de4b6e4.chunk.js",
     "index.html": "/good-nasa-apod/index.html"
   },
   "entrypoints": [
-    "static/css/main.f3c9554c.css",
-    "static/js/main.1c1e1393.js"
+    "static/css/main.46f0e682.css",
+    "static/js/main.6e864acf.js"
   ]
 }
