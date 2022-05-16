@@ -36,11 +36,17 @@
 }
 
 .image {
+  cursor: pointer;
+  width: 100%;
   max-width: 100%;
   height: 100%;
   object-fit: contain;
   width: auto;
   margin: 0;
+}
+
+.hr {
+  display: none;
 }
 
 .imgWrapper {
@@ -83,6 +89,7 @@
   }
 
   .descrLink {
+    pointer-events: none;
     text-decoration: none;
   }
 
@@ -102,5 +109,11 @@
 
   .videoContent > div {
     text-align: justify;
+  }
+
+  .hr {
+    display: block;
+    width: 80%;
+    color: grey;
   }
 }

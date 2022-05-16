@@ -19,14 +19,20 @@ function Apod() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getApodAsync(''));
+    dispatch(getApodAsync(""));
   }, [selectedDate]);
 
+  /* TODO: it would be great for user to be able to step back when checking images */
   return (
     <div className={styles.wrapper}>
       {mediaType === "image" && status === "idle" && (
         <div className={styles.imgWrapper}>
-          <img className={styles.image} src={url} alt=""></img>
+          <img
+            className={styles.image}
+            src={url}
+            alt={title}
+            onClick={() => {window.open(hdurl)}}
+          ></img>
           <a
             className={styles.descrLink}
             href={hdurl}
@@ -72,6 +78,7 @@ function Apod() {
           That's all for today! See you tomorrow!
         </div>
       )}
+      <hr className={styles.hr} />
       <Gallery />
     </div>
   );

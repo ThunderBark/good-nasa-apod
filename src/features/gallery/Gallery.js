@@ -32,6 +32,7 @@ function Gallery() {
           onChange={(e) => {
             dispatch(setSelectedMonth(parseInt(e.target.value)));
           }}
+          disabled={status === "loading"}
         >
           Month
           {monthArray.map((item, index) => (
@@ -45,6 +46,7 @@ function Gallery() {
           onChange={(e) => {
             dispatch(setSelectedYear(parseInt(e.target.value)));
           }}
+          disabled={status === "loading"}
         >
           Year
           {yearArray.map((item, index) => (

@@ -18,4 +18,11 @@ select {
   scrollbar-color: grey black;
   scrollbar-width: thin;
   margin: 10px 5px;
+  transition: 0.5s ease-out;
+  opacity: 1;  
+}
+
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;  
 }
