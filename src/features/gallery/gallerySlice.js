@@ -22,7 +22,7 @@ const initialState = {
   yearArray: [...Array(new Date().getFullYear() - 1995).keys()].map((i) =>
     (i + 1996).toString()
   ),
-  todayDate: new Date(),
+  todayDate: new Date().toISOString(),
   selectedMonth: new Date().getMonth(),
   selectedYear: new Date().getFullYear(),
   gridItems: [],
@@ -61,6 +61,7 @@ export const gallerySlice = createSlice({
       state.selectedMonth = action.payload;
     },
     setSelectedYear: (state, action) => {
+      const today = new Date(state.todayDate);
       state.selectedYear = action.payload;
       state.monthArray = [
         "January",
@@ -77,10 +78,10 @@ export const gallerySlice = createSlice({
         "December",
       ].filter(
         (item, index) =>
-          index <= state.todayDate.getMonth() ||
-          state.todayDate.getFullYear() !== state.selectedYear
+          index <= today.getMonth() ||
+          today.getFullYear() !== state.selectedYear
       );
-      if ((state.todayDate.getFullYear() === state.selectedYear) && (state.selectedMonth > state.todayDate.getMonth())) {
+      if ((today.getFullYear() === state.selectedYear) && (state.selectedMonth > state.todayDate.getMonth())) {
         state.selectedMonth = state.todayDate.getMonth();
       }
     },
