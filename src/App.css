@@ -6,7 +6,7 @@ body {
 
 select {
   color: white;
-  background-color: transparent;
+  background-color: black;
   border: 1px solid grey;
   border-radius: 5px;
   padding: 0.25em 0.5em;
