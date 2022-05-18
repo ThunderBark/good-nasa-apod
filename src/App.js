@@ -2,10 +2,12 @@ import React from "react";
 import "./App.css";
 import Apod from "./APOD/Apod";
 import { Toaster } from "react-hot-toast";
+import Stars from "./features/stars/Stars";
 
 function App() {
   return (
     <div className="App">
+      <Stars/>
       <Toaster
         position="top-right"
         reverseOrder={false}

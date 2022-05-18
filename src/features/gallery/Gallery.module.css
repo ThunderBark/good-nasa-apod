@@ -26,6 +26,12 @@
   margin: auto;
 }
 
+.hr {
+  display: block;
+  width: 80%;
+  color: grey;
+}
+
 .item:hover {
   width: 95%;
   height: 95%;
@@ -63,6 +69,7 @@
 @media screen and (max-width: 800px) {
   .gallery {
     height: fit-content;
+    overflow-y: hidden;
   }
 
   .grid {

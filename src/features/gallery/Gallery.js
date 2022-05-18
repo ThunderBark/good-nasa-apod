@@ -56,6 +56,7 @@ function Gallery() {
           ))}
         </select>
       </div>
+      <hr className={styles.hr} />
       {status === "idle" && (
         <div className={styles.grid}>
           {gridItems.map((item, index) => (
