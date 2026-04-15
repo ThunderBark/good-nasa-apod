@@ -6,6 +6,7 @@ import { LoaderFunctionArgs, redirect, useLocation, useNavigate, useParams } fro
 import { getApodForMonth } from './ApodActions';
 import { StarsBackground } from './StarsBackground/StarsBackground';
 import { Showcase } from './Showcase/Showcase';
+import Loader from './Loader/Loader';
 
 
 function IsApodDateValid(date: string | undefined): string | undefined {
@@ -127,13 +128,12 @@ export function Apod() {
   return (
     <div className={styles.wrapper}>
       <StarsBackground />
-      {!isShowingStars && selectedApod?.media_type === "image" && (
+      {!isShowingStars && ((selectedApod?.media_type === "image" && (
         <Showcase
           apod={selectedApod}
           onClick={() => { window.open(selectedApod.hdurl) }}
         />
-      )}
-      {!isShowingStars && selectedApod?.media_type === "video" && (
+      )) || (selectedApod?.media_type === "video" && (
         <div className={styles.videoWrapper}>
           {selectedApod?.thumbnail_url && (
             <iframe
@@ -162,7 +162,9 @@ export function Apod() {
             <div>{selectedApod.explanation}</div>
           </div>
         </div>
-      )}
+      )) || (
+          <Loader />
+        ))}
 
       {!isShowingStars &&
         <Gallery

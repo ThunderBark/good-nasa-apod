@@ -66,7 +66,9 @@ export function Gallery(props: {
   }, [props.selectedDate]);
 
   React.useEffect(() => {
-    setState('idle');
+    if (props.galleryArray.length) {
+      setState('idle');
+    }
   }, [props.galleryArray]);
 
   // Функция для обновления просматриваемого месяца

@@ -1,4 +1,3 @@
-
 .wrapper {
   position: relative;
   flex-grow: 1;
@@ -62,7 +61,7 @@
     display: block;
   }
 
-  .videoContent > div {
+  .videoContent>div {
     text-align: justify;
   }
 
