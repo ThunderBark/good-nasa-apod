@@ -1,0 +1,15 @@
+.app {
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100%;
+}
+
+.main_container {
+  flex-grow: 1;
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

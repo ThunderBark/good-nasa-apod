@@ -1,0 +1,64 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  top: 0%;
+  left: 0%;
+
+  z-index: -1;
+
+  background-color: black;
+}
+
+.star {
+  display: block;
+  background-color: #fff;
+
+  aspect-ratio: 1;
+
+  position: fixed;
+  border-radius: 100%;
+
+  animation-iteration-count: infinite;
+}
+
+@keyframes move_right {
+  from {
+    transform: rotate(0deg) translateX(8px) rotate(0deg);
+  }
+  
+  to {
+    transform: rotate(360deg) translateX(8px) rotate(-360deg);
+  }
+}
+
+@keyframes move_left {
+  from {
+    transform: rotate(0deg) translateX(8px) rotate(0deg);
+  }
+  
+  to {
+    transform: rotate(-360deg) translateX(8px) rotate(360deg);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 100%;
+  }
+
+  to {
+    opacity: 20%;
+  }
+}
+
+@keyframes move_up {
+  from {
+    top: 110%;
+  }
+
+  to {
+    top: -10%;
+  }
+}
