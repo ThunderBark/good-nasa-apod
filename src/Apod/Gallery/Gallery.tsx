@@ -16,21 +16,21 @@ const ClampMonthByYear = (year: number, month: number) => {
 // Функция для получения массива доступных для скачивания 
 // месяцов в выбранном году
 const GetAvailableMonthsByYear = (year: number
-): Array<{value: number, name: string}> => {
+): Array<{ value: number, name: string }> => {
   // Массив всех возможных месяцов
   const monthArray = [
-    {value: 0, name: "January"},
-    {value: 1, name: "February"},
-    {value: 2, name: "March"},
-    {value: 3, name: "April"},
-    {value: 4, name: "May"},
-    {value: 5, name: "June"},
-    {value: 6, name: "July"},
-    {value: 7, name: "August"},
-    {value: 8, name: "September"},
-    {value: 9, name: "October"},
-    {value: 10, name: "November"},
-    {value: 11, name: "December"},
+    { value: 0, name: "January" },
+    { value: 1, name: "February" },
+    { value: 2, name: "March" },
+    { value: 3, name: "April" },
+    { value: 4, name: "May" },
+    { value: 5, name: "June" },
+    { value: 6, name: "July" },
+    { value: 7, name: "August" },
+    { value: 8, name: "September" },
+    { value: 9, name: "October" },
+    { value: 10, name: "November" },
+    { value: 11, name: "December" },
   ];
 
   const today = new Date();
@@ -77,7 +77,7 @@ export function Gallery(props: {
 
     setSelectedMonth(month);
   }
-  
+
   // Функция для обновления просматриваемого года
   const setYear = (year: number) => {
     setState('loading');
@@ -108,7 +108,7 @@ export function Gallery(props: {
           disabled={state === 'loading'}
         >
           Month
-          {months.map((item, index) => 
+          {months.map((item, index) =>
             <option value={item.value} key={index}>
               {item.name}
             </option>
@@ -132,8 +132,8 @@ export function Gallery(props: {
       </div>
 
       <hr className={styles.hr} />
-      
-      {state === 'loading' && <Loader/>}
+
+      {state === 'loading' && <Loader />}
       {state === 'idle' && (
         <div className={styles.grid}>
           {props.galleryArray.map((item, index) =>
@@ -149,7 +149,7 @@ export function Gallery(props: {
             >
               <img
                 className={styles.itemImg}
-                src={item.media_type === 'image' ? item.url : item.thumbnail_url}
+                src={item.media_type === 'image' ? item.url : item.thumbnail_url || 'black.png'}
                 alt={item.title}
                 onLoad={() => {
                   document.getElementById(item.date)!.classList.remove(styles.inactive)
@@ -171,7 +171,7 @@ export function Gallery(props: {
               )}
             </div>
           )}
-      </div>)
+        </div>)
       }
     </div>
   )

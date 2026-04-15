@@ -136,14 +136,25 @@ export function Apod() {
       )}
       {!isShowingStars && selectedApod?.media_type === "video" && (
         <div className={styles.videoWrapper}>
-          <iframe
-            className={styles.video}
-            src={selectedApod.url}
-            allowFullScreen
-            title={selectedApod.title}
-          >
-            video
-          </iframe>
+          {selectedApod?.thumbnail_url && (
+            <iframe
+              className={styles.video}
+              src={selectedApod.url}
+              allowFullScreen
+              title={selectedApod.title}
+            >
+              video
+            </iframe>
+          ) || (
+            <video
+              className={styles.video}
+              src={selectedApod.url}
+              title={selectedApod.title}
+              controls
+            >
+              video
+            </video>
+          )}
           <div className={styles.videoContent}>
             <h2>{selectedApod.title}</h2>
             <p>
