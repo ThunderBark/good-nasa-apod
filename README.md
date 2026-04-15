@@ -1,17 +1,3 @@
-Палетта:
-
-$\color{000000}{WWW}$
-$\color{14213D}{WWW}$
-$\color{FCA311}{WWW}$
-$\color{E5E5E5}{WWW}$
-$\color{FFFFFF}{WWW}$
-
-$\color{2B2D42}{WWW}$
-$\color{8D99AE}{WWW}$
-$\color{EDF2F4}{WWW}$
-$\color{EF233C}{WWW}$
-$\color{D90429}{WWW}$
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
