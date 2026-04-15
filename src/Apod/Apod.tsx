@@ -62,6 +62,7 @@ export function Apod() {
   const [selectedApod, setSelectedApod] = React.useState({} as ApodEntry);
 
   const [isShowingStars, setShowingStars] = React.useState(false);
+  const [tooManyRequests, setTooManyRequests] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -98,6 +99,13 @@ export function Apod() {
         setApodArray(value);
         setSelectedApod(apod);
         setSelectedDate(newDate);
+      })
+      .catch((response: Response) => {
+        if (response.status == 429) {
+          setTooManyRequests(true)
+        } else {
+          console.error("Error!")
+        }
       });
   }, [location]);
 
@@ -121,52 +129,60 @@ export function Apod() {
 
         // Сохраняем массив картинок
         setApodArray(value);
+      })
+      .catch((response: Response) => {
+        if (response.status == 429) {
+          setTooManyRequests(true)
+        } else {
+          console.error("Error!")
+        }
       });
   }, []);
 
-
+  // TODO: Все что ниже нужно хотябы разделить на отдельные элементы, а
+  // что делать с вложенностью скобок я на самом деле хз
   return (
     <div className={styles.wrapper}>
       <StarsBackground />
-      {!isShowingStars && ((selectedApod?.media_type === "image" && (
-        <Showcase
-          apod={selectedApod}
-          onClick={() => { window.open(selectedApod.hdurl) }}
-        />
-      )) || (selectedApod?.media_type === "video" && (
-        <div className={styles.videoWrapper}>
-          {selectedApod?.thumbnail_url && (
-            <iframe
-              className={styles.video}
-              src={selectedApod.url}
-              allowFullScreen
-              title={selectedApod.title}
-            >
-              video
-            </iframe>
-          ) || (
-              <video
+      {!isShowingStars && !tooManyRequests &&
+        ((selectedApod?.media_type === "image" && (
+          <Showcase
+            apod={selectedApod}
+            onClick={() => { window.open(selectedApod.hdurl) }}
+          />
+        )) || (selectedApod?.media_type === "video" && (
+          <div className={styles.videoWrapper}>
+            {selectedApod?.thumbnail_url && (
+              <iframe
                 className={styles.video}
                 src={selectedApod.url}
+                allowFullScreen
                 title={selectedApod.title}
-                controls
               >
                 video
-              </video>
-            )}
-          <div className={styles.videoContent}>
-            <h2>{selectedApod.title}</h2>
-            <p>
-              By {selectedApod.copyright}, {selectedApod.date}
-            </p>
-            <div>{selectedApod.explanation}</div>
+              </iframe>
+            ) || (
+                <video
+                  className={styles.video}
+                  src={selectedApod.url}
+                  title={selectedApod.title}
+                  controls
+                >
+                  video
+                </video>
+              )}
+            <div className={styles.videoContent}>
+              <h2>{selectedApod.title}</h2>
+              <p>
+                By {selectedApod.copyright}, {selectedApod.date}
+              </p>
+              <div>{selectedApod.explanation}</div>
+            </div>
           </div>
-        </div>
-      )) || (
-          <Loader />
-        ))}
+        )) || <Loader />)
+      }
 
-      {!isShowingStars &&
+      {!isShowingStars && !tooManyRequests &&
         <Gallery
           selectedDate={selectedDate}
           galleryArray={apodArray}
@@ -174,6 +190,17 @@ export function Apod() {
           onYearMonthChange={loadMonthYear}
         />
       }
+
+      {!isShowingStars && tooManyRequests && (
+        <div style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",  // horizontal
+          alignItems: "center",      // vertical
+          fontSize: "2rem",
+        }}>That's it for today! See you tomorrow!</div>
+      )}
 
       <img
         className={styles.hideButton}

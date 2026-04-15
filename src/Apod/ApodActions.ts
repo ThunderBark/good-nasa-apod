@@ -10,15 +10,11 @@ export async function getApodForMonth(month: number, year: number) {
   ).toISOString().substring(0, 10)
 
   // Проверяем верхнюю границу, то бишь сегодняшний день
-  const lastDay = 
+  const lastDay =
     today.getMonth() === month &&
-    today.getFullYear() === year
+      today.getFullYear() === year
       ? today.toISOString().substring(0, 10)
       : new Date(year, month + 1, 1).toISOString().substring(0, 10)
-    
-  // Делаем запрос и ждем его
-  const response = await fetchDateRange(firstDay, lastDay);
-  
-  // Передаем результат
-  return response as ApodResponse;
+
+  return fetchDateRange(firstDay, lastDay);
 }
