@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ApodEntry } from "../ApodAPI";
 import styles from './Showcase.module.css';
 import { point2d } from "../../utils/utils";

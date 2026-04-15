@@ -8,24 +8,24 @@ import { StarsBackground } from './StarsBackground/StarsBackground';
 import { Showcase } from './Showcase/Showcase';
 
 
-function IsApodDateValid(date: string | undefined): string | 'invalid' {
+function IsApodDateValid(date: string | undefined): string | undefined {
   if (date === undefined) {
-    return 'invalid';
+    return undefined;
   }
 
   if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return 'invalid';
+    return undefined;
   }
 
   if (isNaN(Date.parse(date))) {
-    return 'invalid';
+    return undefined;
   }
 
   const request = new Date(date).getTime();
   const today = new Date().getTime();
   const begin = new Date("1995-06-16").getTime();
   if (request < begin || request > today) {
-    return 'invalid';
+    return undefined;
   }
 
   return date;
@@ -43,9 +43,8 @@ export const ApodLoader = (url: LoaderFunctionArgs<any>) => {
   }
 
   const apodDateString = IsApodDateValid(url.params.date);
-  // TODO: Редиректить на текущее время вместо 404
-  if (apodDateString === 'invalid') {
-    return redirect('/404');
+  if (!apodDateString) {
+    return redirect(getBasePath() + new Date().toISOString().substring(0, 10));
   }
 
   return new Date(apodDateString);
@@ -146,15 +145,15 @@ export function Apod() {
               video
             </iframe>
           ) || (
-            <video
-              className={styles.video}
-              src={selectedApod.url}
-              title={selectedApod.title}
-              controls
-            >
-              video
-            </video>
-          )}
+              <video
+                className={styles.video}
+                src={selectedApod.url}
+                title={selectedApod.title}
+                controls
+              >
+                video
+              </video>
+            )}
           <div className={styles.videoContent}>
             <h2>{selectedApod.title}</h2>
             <p>
