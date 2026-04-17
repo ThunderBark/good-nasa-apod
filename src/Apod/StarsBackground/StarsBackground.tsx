@@ -1,15 +1,14 @@
 import React from 'react';
 import { memo } from 'react';
 import styles from './StarsBackground.module.css'
-import { point2d, cubicBezier, getVec, vecLen, vecNorm, debounce } from '../../utils/utils';
+import { cubicBezier, debounce, vectorToCircleEdge, clamp } from '../../utils/utils';
+import Vector2 from '../../utils/Vector2';
 
 const ANIMATION_DURATION_S = 20000;
-
 type starData = {
-  start: point2d,
+  start: Vector2,
   startOffset: number,
-  pathDir: point2d,
-  pathLen: number
+  pathVec: Vector2,
 };
 
 const drawStars = (
@@ -24,6 +23,7 @@ const drawStars = (
   const progress = ((new Date).getTime() % ANIMATION_DURATION_S) / ANIMATION_DURATION_S;
 
   ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#FFFFFF'
   starDataArr.map((item) => {
     const itemProgress = (((progress + item.startOffset) * 1000) % 1000) / 1000;
 
@@ -32,13 +32,11 @@ const drawStars = (
       item.start.x = Math.random() * w;
       item.start.y = Math.random() * h;
 
-      const startPosVec = getVec(
-        { x: w / 2, y: h / 2 },
-        { x: item.start.x, y: item.start.y }
+      item.pathVec = vectorToCircleEdge(
+        new Vector2(item.start.x, item.start.y),
+        new Vector2(w / 2, h / 2),
+        borderRadius
       );
-
-      item.pathDir = vecNorm(startPosVec);
-      item.pathLen = borderRadius / 2 - vecLen(startPosVec);
     }
 
     const pathProgress: number = cubicBezier(
@@ -48,7 +46,7 @@ const drawStars = (
       0.0,
       1
     );
-    const closenessCoef = item.pathLen / (borderRadius / 2);
+    const closenessCoef = item.pathVec.length() / (borderRadius / 2);
     const sizeProgress: number = cubicBezier(
       itemProgress,
       closenessCoef * 0.1,
@@ -57,18 +55,19 @@ const drawStars = (
       closenessCoef
     );
 
-    ctx.fillStyle = 'rgb(' + sizeProgress * 255 + ', ' + sizeProgress * 255 + ', ' + sizeProgress * 255 + ')';
+    ctx.globalAlpha = clamp(sizeProgress, 0.0, 1.0);
     ctx.beginPath();
     ctx.arc(
-      item.start.x + pathProgress * item.pathDir.x * item.pathLen,
-      item.start.y + pathProgress * item.pathDir.y * item.pathLen,
-      Math.abs(sizeProgress * 5),
+      item.start.x + pathProgress * item.pathVec.x,
+      item.start.y + pathProgress * item.pathVec.y,
+      Math.abs(sizeProgress * 3),
       0,
       2 * Math.PI
     );
     ctx.fill();
     return 0;
   });
+  ctx.globalAlpha = 1;
 };
 
 
@@ -97,19 +96,21 @@ export const StarsBackground = memo(() => {
   const resetStarDataArr = () => {
     starDataArr = [];
     Array.from(Array(starNumber)).map(() => {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
+      const start = new Vector2(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
+      )
       const spaceSize = 1.3 * Math.max(window.innerWidth, window.innerHeight);
-      const startPosVec = getVec(
-        { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-        { x: x, y: y }
-      );
+      const startPosVec = vectorToCircleEdge(
+        start.clone(),
+        new Vector2(window.innerWidth / 2, window.innerHeight / 2),
+        spaceSize
+      )
 
       starDataArr.push({
-        start: { x: x, y: y },
+        start: start,
         startOffset: Math.random(),
-        pathDir: vecNorm(startPosVec),
-        pathLen: spaceSize / 2 - vecLen(startPosVec),
+        pathVec: startPosVec,
       })
     });
   }

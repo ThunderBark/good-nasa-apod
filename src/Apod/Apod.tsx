@@ -88,12 +88,10 @@ export function Apod() {
       newDate.getFullYear(),
     )
       .then((value: ApodResponse) => {
-        // Пытаемся найти APOD за запрошенную дату
+        // Пытаемся найти APOD за запрошенную дату или просто выдаем последний элемент
         const apod = value.find(
           (item) => (new Date(item.date).toDateString() === newDate.toDateString())
-        ) ||
-          // Или просто выдаем последний элемент
-          value[value.length - 1];
+        ) || value[value.length - 1];
 
         // Выставляем актуальную дату и сохраняем массив картинок
         setApodArray(value);
@@ -104,7 +102,7 @@ export function Apod() {
         if (response.status == 429) {
           setTooManyRequests(true)
         } else {
-          console.error("Error!")
+          console.error("Forbidden rror!")
         }
       });
   }, [location]);

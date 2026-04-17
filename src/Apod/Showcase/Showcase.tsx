@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { ApodEntry } from "../ApodAPI";
 import styles from './Showcase.module.css';
-import { point2d } from "../../utils/utils";
+
+type point2d = {
+  x: number,
+  y: number
+};
 
 
 export const Showcase = (props: {

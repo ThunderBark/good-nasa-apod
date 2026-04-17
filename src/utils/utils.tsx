@@ -1,34 +1,7 @@
-export type point2d = {
-  x: number,
-  y: number
-};
+import Vector2 from "./Vector2";
 
-export const getVec = (
-  point1: point2d,
-  point2: point2d
-): {x: number, y: number} => {
-
-  return {
-    x: point2.x - point1.x,
-    y: point2.y - point1.y
-  };
-}
-
-export const vecLen = (
-  vec: point2d
-) => {
-  return Math.sqrt(
-    vec.x * vec.x + vec.y * vec.y
-  );
-}
-
-export const vecNorm = (
-  vec: point2d
-): point2d => {
-  return {
-    x: vec.x / vecLen({x: vec.x, y: vec.y}),
-    y: vec.y / vecLen({x: vec.x, y: vec.y})
-  };
+export const clamp = (x: number, min: number, max: number): number => {
+  return Math.min(Math.max(x, min), max);
 }
 
 export const cubicBezier = (
@@ -39,16 +12,41 @@ export const cubicBezier = (
   p4: number
 ): number => {
   return Math.pow((1 - t), 3) * p1 +
-  3 * Math.pow((1 - t), 2) * t * p2 + 
-  3 * (1 - t) * t * t * p3 +
-  Math.pow(t, 3) * p4;
+    3 * Math.pow((1 - t), 2) * t * p2 +
+    3 * (1 - t) * t * t * p3 +
+    Math.pow(t, 3) * p4;
 }
 
 export const debounce = (func: () => any) => {
   var timeToWait = 50;
   var timer: number | undefined;
   return (event: Event) => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(func, timeToWait, event);
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(func, timeToWait, event);
   };
+}
+
+export const vectorToCircleEdge = (
+  point: Vector2,
+  center: Vector2,
+  radius: number
+): Vector2 => {
+  const dx = point.x - center.x;
+  const dy = point.y - center.y;
+
+  const len = Math.hypot(dx, dy);
+
+  if (len === 0) {
+    return new Vector2(radius, 0);
+  }
+
+  const scale = radius / len;
+
+  const closestX = center.x + dx * scale;
+  const closestY = center.y + dy * scale;
+
+  return new Vector2(
+    closestX - point.x,
+    closestY - point.y
+  );
 }
