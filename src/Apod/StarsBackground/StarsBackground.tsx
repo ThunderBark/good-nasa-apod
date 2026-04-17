@@ -18,16 +18,16 @@ type starData = {
  * @param h 
  */
 const drawStars = (
-  canvasId : string,
-  w : number,
-  h : number,
+  canvasId: string,
+  w: number,
+  h: number,
   starDataArr: Array<starData>
 ) => {
   const animationDuration = 20000;
 
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-  const ctx : CanvasRenderingContext2D = canvas.getContext('2d', { alpha: false })!;
-  const spaceSize = 1.3 *  Math.max(w, h);
+  const ctx: CanvasRenderingContext2D = canvas.getContext('2d', { alpha: false })!;
+  const spaceSize = 1.3 * Math.max(w, h);
 
 
   ctx.clearRect(0, 0, w, h);
@@ -43,8 +43,8 @@ const drawStars = (
       item.start.y = Math.random() * h;
 
       const startPosVec = getVec(
-        {x: window.innerWidth / 2, y: window.innerHeight / 2},
-        {x: item.start.x, y: item.start.y}
+        { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        { x: item.start.x, y: item.start.y }
       );
 
       item.pathDir = vecNorm(startPosVec);
@@ -92,7 +92,6 @@ export const StarsBackground = memo(() => {
 
   var starDataArr: Array<starData> = [];
 
-  
   var drawId = 0;
   const draw = () => {
     drawStars(
@@ -110,14 +109,14 @@ export const StarsBackground = memo(() => {
     Array.from(Array(starNumber)).map(() => {
       const x = Math.random() * window.innerWidth;
       const y = Math.random() * window.innerHeight;
-      const spaceSize = 1.3 *  Math.max(window.innerWidth, window.innerHeight);
+      const spaceSize = 1.3 * Math.max(window.innerWidth, window.innerHeight);
       const startPosVec = getVec(
-        {x: window.innerWidth / 2, y: window.innerHeight / 2},
-        {x: x, y: y}
+        { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        { x: x, y: y }
       );
 
       starDataArr.push({
-        start: {x: x, y: y},
+        start: { x: x, y: y },
         startOffset: Math.random(),
         pathDir: vecNorm(startPosVec),
         pathLen: spaceSize / 2 - vecLen(startPosVec),
@@ -144,9 +143,9 @@ export const StarsBackground = memo(() => {
 
   return (
     <div className={styles.wrapper}>
-      <canvas 
+      <canvas
         id='starsCanvas'
-        style={{height: '100vh', width: '100vw'}}
+        style={{ height: '100vh', width: '100vw' }}
         width={canvasWidth}
         height={canvasHeight}
       />

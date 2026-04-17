@@ -139,48 +139,49 @@ export function Apod() {
       });
   }, []);
 
-  // TODO: Все что ниже нужно хотябы разделить на отдельные элементы, а
-  // что делать с вложенностью скобок я на самом деле хз
   return (
     <div className={styles.wrapper}>
       <StarsBackground />
+
       {!isShowingStars && !tooManyRequests &&
-        ((selectedApod?.media_type === "image" && (
+        selectedApod?.media_type === "image" && (
           <Showcase
             apod={selectedApod}
             onClick={() => { window.open(selectedApod.hdurl) }}
           />
-        )) || (selectedApod?.media_type === "video" && (
-          <div className={styles.videoWrapper}>
-            {selectedApod?.thumbnail_url && (
-              <iframe
-                className={styles.video}
-                src={selectedApod.url}
-                allowFullScreen
-                title={selectedApod.title}
-              >
-                video
-              </iframe>
-            ) || (
-                <video
-                  className={styles.video}
-                  src={selectedApod.url}
-                  title={selectedApod.title}
-                  controls
-                >
-                  video
-                </video>
-              )}
-            <div className={styles.videoContent}>
-              <h2>{selectedApod.title}</h2>
-              <p>
-                By {selectedApod.copyright}, {selectedApod.date}
-              </p>
-              <div>{selectedApod.explanation}</div>
-            </div>
+        )}
+      {!isShowingStars && !tooManyRequests && selectedApod?.media_type === "video" && (
+        <div className={styles.videoWrapper}>
+          {selectedApod?.thumbnail_url && (
+            <iframe
+              className={styles.video}
+              src={selectedApod.url}
+              allowFullScreen
+              title={selectedApod.title}
+            >
+              video
+            </iframe>
+          )}
+          {!selectedApod?.thumbnail_url && (
+            <video
+              className={styles.video}
+              src={selectedApod.url}
+              title={selectedApod.title}
+              controls
+            >
+              video
+            </video>
+          )}
+          <div className={styles.videoContent}>
+            <h2>{selectedApod.title}</h2>
+            <p>
+              By {selectedApod.copyright}, {selectedApod.date}
+            </p>
+            <div>{selectedApod.explanation}</div>
           </div>
-        )) || <Loader />)
-      }
+        </div>
+      )}
+      {!isShowingStars && !tooManyRequests && !selectedApod?.media_type && <Loader />}
 
       {!isShowingStars && !tooManyRequests &&
         <Gallery

@@ -13,15 +13,15 @@ export const Showcase = (props: {
   const [apod, setApod] = useState(props.apod);
   const [fade_timer, setTimer] = useState(0);
 
-  const [imgCalculatedSize, setImgCalculatedSize] = useState<point2d>({x: 0, y: 0});
-  const [imgCenter, setImgCenter] = useState<point2d>({x: 0, y: 0});
+  const [imgCalculatedSize, setImgCalculatedSize] = useState<point2d>({ x: 0, y: 0 });
+  const [imgCenter, setImgCenter] = useState<point2d>({ x: 0, y: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Подключаем колбэк при загрузке картинки
   useEffect(() => {
     document.getElementById(imageId)?.addEventListener('load', imageChanged)
-    return () => {document.getElementById(imageId)?.removeEventListener('load', imageChanged)}
+    return () => { document.getElementById(imageId)?.removeEventListener('load', imageChanged) }
   });
 
   // Обработка затенения картинки при переключении
@@ -34,7 +34,7 @@ export const Showcase = (props: {
       containerRef.current?.classList.add(styles.visible);
     }, 300));
 
-    return () => {clearTimeout(fade_timer)}
+    return () => { clearTimeout(fade_timer) }
   }, [props.apod]);
 
   // Обновляем положение инфы о картинке при изменении размера контейнера
@@ -55,8 +55,8 @@ export const Showcase = (props: {
     const imageNaturalRatio = image.naturalWidth / image.naturalHeight
     const imageClientRatio = image.clientWidth / image.clientHeight
 
-    var newImgCalculatedSize: point2d = {x: 0, y: 0}
-    var newImgCenter: point2d = {x: 0, y: 0}
+    var newImgCalculatedSize: point2d = { x: 0, y: 0 }
+    var newImgCenter: point2d = { x: 0, y: 0 }
 
     if (imageNaturalRatio < imageClientRatio) {
       newImgCalculatedSize.x = image.clientHeight * imageNaturalRatio;
@@ -95,13 +95,13 @@ export const Showcase = (props: {
           className={styles.content}
           style={
             window.matchMedia("(min-width: 800px)").matches
-            ? {
-              width: imgCalculatedSize.x + 'px',
-              height: imgCalculatedSize.y + 'px',
-              left: String(imgCenter.x + 10) + 'px',
-              top: String(imgCenter.y + 10) + 'px',
-            }
-            : undefined}
+              ? {
+                width: imgCalculatedSize.x + 'px',
+                height: imgCalculatedSize.y + 'px',
+                left: String(imgCenter.x + 10) + 'px',
+                top: String(imgCenter.y + 10) + 'px',
+              }
+              : undefined}
         >
           <div className={styles.title}>
             <h2>{apod.title}</h2>
