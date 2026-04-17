@@ -3,6 +3,7 @@ import { memo } from 'react';
 import styles from './StarsBackground.module.css'
 import { point2d, cubicBezier, getVec, vecLen, vecNorm, debounce } from '../../utils/utils';
 
+const ANIMATION_DURATION_S = 20000;
 
 type starData = {
   start: point2d,
@@ -11,56 +12,45 @@ type starData = {
   pathLen: number
 };
 
-/**
- * 
- * @param canvasId 
- * @param w 
- * @param h 
- */
 const drawStars = (
   canvasId: string,
   w: number,
   h: number,
   starDataArr: Array<starData>
 ) => {
-  const animationDuration = 20000;
-
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
   const ctx: CanvasRenderingContext2D = canvas.getContext('2d', { alpha: false })!;
-  const spaceSize = 1.3 * Math.max(w, h);
-
+  const borderRadius = 1.3 * Math.max(w, h);
+  const progress = ((new Date).getTime() % ANIMATION_DURATION_S) / ANIMATION_DURATION_S;
 
   ctx.clearRect(0, 0, w, h);
-
-  const t = ((new Date).getTime() % animationDuration) / animationDuration;
-
   starDataArr.map((item) => {
-    const offset_t = (((t + item.startOffset) * 1000) % 1000) / 1000;
+    const itemProgress = (((progress + item.startOffset) * 1000) % 1000) / 1000;
 
     // В конце каждого цикла анимации двигаем начальное положение звезды
-    if (Math.floor(offset_t * 10000) === 0) {
+    if (Math.floor(itemProgress * 10000) === 0) {
       item.start.x = Math.random() * w;
       item.start.y = Math.random() * h;
 
       const startPosVec = getVec(
-        { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        { x: w / 2, y: h / 2 },
         { x: item.start.x, y: item.start.y }
       );
 
       item.pathDir = vecNorm(startPosVec);
-      item.pathLen = spaceSize / 2 - vecLen(startPosVec);
+      item.pathLen = borderRadius / 2 - vecLen(startPosVec);
     }
 
     const pathProgress: number = cubicBezier(
-      offset_t,
+      itemProgress,
       0.0,
       0.0,
       0.0,
       1
     );
-    const closenessCoef = item.pathLen / (spaceSize / 2);
+    const closenessCoef = item.pathLen / (borderRadius / 2);
     const sizeProgress: number = cubicBezier(
-      offset_t,
+      itemProgress,
       closenessCoef * 0.1,
       closenessCoef * 0.3,
       closenessCoef * 0.5,
