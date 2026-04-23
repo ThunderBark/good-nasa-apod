@@ -62,8 +62,18 @@ export function Apod() {
   const [selectedApod, setSelectedApod] = React.useState({} as ApodEntry);
 
   const [isShowingStars, setShowingStars] = React.useState(false);
-  const [tooManyRequests, setTooManyRequests] = React.useState(false);
+  const [accessDenied, setAccessDenied] = React.useState(false);
+  const [deniedDescription, setDeniedDescription] = React.useState("");
 
+  const setTooManyRequests = () => {
+    setAccessDenied(true);
+    setDeniedDescription("429: That's it for today! See you tomorrow!");
+  }
+
+  const setForbidden = () => {
+    setAccessDenied(true);
+    setDeniedDescription("403: The NASA API is not available in your region.");
+  }
 
   React.useEffect(() => {
     const newDate = new Date(params.date!);
@@ -100,9 +110,11 @@ export function Apod() {
       })
       .catch((response: Response) => {
         if (response.status == 429) {
-          setTooManyRequests(true)
+          setTooManyRequests();
+        } else if (!Object.hasOwn(response, 'status')) {
+          setForbidden();
         } else {
-          console.error("Forbidden rror!")
+          console.error(response)
         }
       });
   }, [location]);
@@ -130,9 +142,11 @@ export function Apod() {
       })
       .catch((response: Response) => {
         if (response.status == 429) {
-          setTooManyRequests(true)
+          setTooManyRequests();
+        } else if (!Object.hasOwn(response, 'status')) {
+          setForbidden();
         } else {
-          console.error("Error!")
+          console.error(response)
         }
       });
   }, []);
@@ -141,14 +155,14 @@ export function Apod() {
     <div className={styles.wrapper}>
       <StarsBackground />
 
-      {!isShowingStars && !tooManyRequests &&
+      {!isShowingStars && !accessDenied &&
         selectedApod?.media_type === "image" && (
           <Showcase
             apod={selectedApod}
             onClick={() => { window.open(selectedApod.hdurl) }}
           />
         )}
-      {!isShowingStars && !tooManyRequests && selectedApod?.media_type === "video" && (
+      {!isShowingStars && !accessDenied && selectedApod?.media_type === "video" && (
         <div className={styles.videoWrapper}>
           {selectedApod?.thumbnail_url && (
             <iframe
@@ -179,9 +193,9 @@ export function Apod() {
           </div>
         </div>
       )}
-      {!isShowingStars && !tooManyRequests && !selectedApod?.media_type && <Loader />}
+      {!isShowingStars && !accessDenied && !selectedApod?.media_type && <Loader />}
 
-      {!isShowingStars && !tooManyRequests &&
+      {!isShowingStars && !accessDenied &&
         <Gallery
           selectedDate={selectedDate}
           galleryArray={apodArray}
@@ -190,7 +204,7 @@ export function Apod() {
         />
       }
 
-      {!isShowingStars && tooManyRequests && (
+      {!isShowingStars && accessDenied && (
         <div style={{
           width: "100vw",
           height: "100vh",
@@ -198,7 +212,7 @@ export function Apod() {
           justifyContent: "center",  // horizontal
           alignItems: "center",      // vertical
           fontSize: "2rem",
-        }}>That's it for today! See you tomorrow!</div>
+        }}>{deniedDescription}</div>
       )}
 
       <img
